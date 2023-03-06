@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,18 @@ class DashboardUser
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        // return $next($request);
+
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'DashboardUser') {
+            return $next($request);
+        }
+
+        if (Auth::user()->role == 'MicrositeUser') {
+            return redirect()->route('microsite');
+        }
     }
 }
