@@ -28,4 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+Auth::routes();
+Route::get('/dashboarduser', 'DashboardUserController::index')->name('dashboard')->middleware('dashboarduser');
+Route::get('/micrositeuser', 'MicrositeUserController::index')->name('visitor')->middleware('micrositeuser');
+
+require __DIR__ . '/auth.php';
